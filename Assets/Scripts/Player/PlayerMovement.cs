@@ -85,6 +85,15 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            //if player is climbing, check if they are still on the climbable
+            if (!ClimbableNearby())
+            {
+                _isClimbing = false;
+                _rigidbody2D.gravityScale = _gravityScale;
+            }
+        }
     }
 
     void FixedUpdate()
