@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class FireMaterial : MaterialClass
 {
-    public override void Attack()
+    public override void Attack(GameObject player)
     {
         Debug.Log("Fire Attack");
     }
 
-    public override void Special()
+    public override void Special(GameObject player)
     {
         Debug.Log("Fire Special");
     }

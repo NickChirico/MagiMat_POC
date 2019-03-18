@@ -55,12 +55,12 @@ public class PlayerActions : MonoBehaviour
     
     void Attack()
     {
-        PlayerManager.instance.materialScript.Attack();
+        PlayerManager.instance.materialScript.Attack(this.gameObject);
     }
     
     void Special()
     {
-        PlayerManager.instance.materialScript.Special();
+        PlayerManager.instance.materialScript.Special(this.gameObject);
     }
     
     void DebugChangeMaterial()
