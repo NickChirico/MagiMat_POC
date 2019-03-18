@@ -7,8 +7,6 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private PlayerManager _playerManager;
-    
     private Rigidbody2D _rigidbody2D;
 
     private Vector2 _inputVector;
@@ -29,9 +27,7 @@ public class PlayerMovement : MonoBehaviour
     private float _gravityScale;
 
     void Awake()
-    {
-        _playerManager = GetComponent<PlayerManager>();
-        
+    { 
         //assign components
         _rigidbody2D = GetComponent<Rigidbody2D>();
 

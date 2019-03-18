@@ -7,20 +7,19 @@ public enum Material
     None,
     Vine,
     Fire,
-    Stone
+    Rock
 }
 
 public abstract class MaterialClass : MonoBehaviour
 {
     public Material material;
-    
-    protected virtual void Attack()
+
+    protected virtual void Start()
     {
-        
+        MaterialsManager.AddMaterialScript(material, this);
     }
 
-    protected virtual void Special()
-    {
-        
-    } 
+    public abstract void Attack();
+    
+    public abstract void Special();
 }

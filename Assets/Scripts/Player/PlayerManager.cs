@@ -7,20 +7,33 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    public PlayerMovement playerMovement;
-    public PlayerHealth playerHealth;
-    public PlayerActions playerActions;
+    [HideInInspector] public static PlayerManager instance;
+    
+    [HideInInspector] public PlayerMovement playerMovement;
+    [HideInInspector] public PlayerHealth playerHealth;
+    [HideInInspector] public PlayerActions playerActions;
 
-    public Material material;
-    public MaterialClass materialScript;
+    [HideInInspector] public Material material;
+    [HideInInspector] public MaterialClass materialScript;
 
     void Awake()
     {
+        instance = this;
+        
         playerMovement = GetComponent<PlayerMovement>();
         playerHealth = GetComponent<PlayerHealth>();
         playerActions = GetComponent<PlayerActions>();
     }
 
+    public void ChangeMaterial(Material newMaterial)
+    {
+        material = newMaterial;
+        MaterialsManager.MaterialsDict.TryGetValue(material, out MaterialClass newMaterialScript);
+        materialScript = newMaterialScript;
+        
+        Debug.Log("New Material: " + material);
+    }
+    
     public void Death()
     {
         playerMovement.enabled = false;
