@@ -6,8 +6,6 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    private PlayerManager _playerManager;
-    
     private SpriteRenderer _spriteRenderer;
     private Rigidbody2D _rigidbody2D;
     private Collider2D _collider;
@@ -16,8 +14,6 @@ public class PlayerHealth : MonoBehaviour
 
     void Awake()
     {
-        _playerManager = GetComponent<PlayerManager>();
-        
         //assign components
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
@@ -30,7 +26,7 @@ public class PlayerHealth : MonoBehaviour
         //if not, run death method
         if (health <= 0)
         {
-            _playerManager.Death();
+            PlayerManager.instance.Death();
         }
     }
 

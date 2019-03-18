@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,26 +8,18 @@ using UnityEngine.SceneManagement;
 
 public class PlayerActions : MonoBehaviour
 {
-    private PlayerManager _playerManager;
-    
     private SpriteRenderer _spriteRenderer;
     private Rigidbody2D _rigidbody2D;
     private Collider2D _collider;
     
     private Vector2 _inputVector;
 
-    private MaterialManager _materialManager;
-
     void Awake()
     {
-        _playerManager = GetComponent<PlayerManager>();
-        
         //assign components
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _collider = GetComponent<Collider2D>();
-
-        _materialManager = GetComponent<MaterialManager>();
     }
 
     void Update()
@@ -43,15 +35,17 @@ public class PlayerActions : MonoBehaviour
         float vertical = Input.GetAxisRaw("Vertical");
         _inputVector = new Vector2(horizontal, vertical);
 
-        if (_materialManager.ActiveMaterial == null)
+        if (Input.GetKeyDown(KeyCode.O))
         {
-            Debug.Log(true);
+            Attack();
         }
-        else
+        
+        if (Input.GetKeyDown(KeyCode.P))
         {
-            Debug.Log(false);
+            Special();
         }
-
+        
+        DebugChangeMaterial();
     }
 
     void ThrowMaterialAbsorber()
@@ -61,22 +55,39 @@ public class PlayerActions : MonoBehaviour
     
     void Attack()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            if (_materialManager.ActiveMaterial != null)
-            {
-                _materialManager.ActiveMaterial.DebugName();
-            }
-
-        }
-
-        //MaterialManager.ActiveMaterial.Attack(_inputVector) - something like this?
-        //access method from material script
+        PlayerManager.instance.materialScript.Attack();
     }
     
     void Special()
     {
-        //access method from material script
+        PlayerManager.instance.materialScript.Special();
+    }
+    
+    void DebugChangeMaterial()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            PlayerManager.instance.ChangeMaterial(Material.None);
+            return;
+        }
+        
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            PlayerManager.instance.ChangeMaterial(Material.Vine);
+            return;
+        }
+        
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            PlayerManager.instance.ChangeMaterial(Material.Fire);
+            return;
+        }
+        
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            PlayerManager.instance.ChangeMaterial(Material.Rock);
+            return;
+        }
     }
     
     void ResetScene()
