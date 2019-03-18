@@ -36,8 +36,8 @@ public class FireToad : Enemy
     
     void Update()
     {
-        //
-        if (_isGrounded && _isJumping)
+        //Will jump if it is on the ground and isn't already in the jumping process
+        if (_isGrounded && !_isJumping)
         {
             StartCoroutine(JumpAttack());
         }
@@ -53,6 +53,7 @@ public class FireToad : Enemy
         _rigidbody2D.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
     }
 
+    //Wait a few seconds, jumps, attacks during the jump at different heights
     IEnumerator JumpAttack()
     {
         _isJumping = true;
@@ -60,14 +61,17 @@ public class FireToad : Enemy
         float AttackWait = Random.Range(.2f, .3f);
         yield return new WaitForSeconds(JumpWait);
         Jump(jumpPower);
+        _isGrounded = false;
         yield return new WaitForSeconds(AttackWait);
+        GameObject FireballClone = Instantiate(Fireball, transform.position, Quaternion.identity);
     }
 
+    //Set grounded when on the ground
     private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.layer == 8)
         {
-            GameObject FireballClone = Instantiate(Fireball, transform.position, Quaternion.identity);
+            _isGrounded = true;
         }
     }
 }
