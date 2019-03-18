@@ -14,6 +14,9 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector] public bool _isGrounded;
     [HideInInspector] public bool _wasGrounded;
     [HideInInspector] public bool _isClimbing;
+
+    [HideInInspector] public bool FacingRight;
+    [HideInInspector] public Vector2 InputVector;
     
     public float acceleration;
     public float groundFriction; //drag force
@@ -41,7 +44,8 @@ public class PlayerMovement : MonoBehaviour
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
         _inputVector = new Vector2(horizontal, vertical);
-
+        InputVector = _inputVector;
+        
         //grounded check and check if the player was recently grounded
         //if player was recently grounded, set _hasJumped to false
         _wasGrounded = _isGrounded;
@@ -147,6 +151,12 @@ public class PlayerMovement : MonoBehaviour
             //add force to player in input direction, only runs if player is not already at its maxMoveSpeed
             _rigidbody2D.AddForce(horizontalInput * acceleration * Time.fixedDeltaTime, ForceMode2D.Force);
         }
+        
+        
+        if (velocity.x > 0)
+            FacingRight = true;
+        else if(velocity.x < 0)
+            FacingRight = false;
     }
 
     void Climb()
