@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,8 +8,6 @@ using UnityEngine.SceneManagement;
 
 public class PlayerActions : MonoBehaviour
 {
-    private PlayerManager _playerManager;
-    
     private SpriteRenderer _spriteRenderer;
     private Rigidbody2D _rigidbody2D;
     private Collider2D _collider;
@@ -17,8 +16,6 @@ public class PlayerActions : MonoBehaviour
 
     void Awake()
     {
-        _playerManager = GetComponent<PlayerManager>();
-        
         //assign components
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
@@ -37,6 +34,18 @@ public class PlayerActions : MonoBehaviour
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
         _inputVector = new Vector2(horizontal, vertical);
+
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            Attack();
+        }
+        
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            Special();
+        }
+        
+        DebugChangeMaterial();
     }
 
     void ThrowMaterialAbsorber()
@@ -46,13 +55,39 @@ public class PlayerActions : MonoBehaviour
     
     void Attack()
     {
-        //MaterialManager.ActiveMaterial.Attack(_inputVector) - something like this?
-        //access method from material script
+        PlayerManager.instance.materialScript.Attack();
     }
     
     void Special()
     {
-        //access method from material script
+        PlayerManager.instance.materialScript.Special();
+    }
+    
+    void DebugChangeMaterial()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            PlayerManager.instance.ChangeMaterial(Material.None);
+            return;
+        }
+        
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            PlayerManager.instance.ChangeMaterial(Material.Vine);
+            return;
+        }
+        
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            PlayerManager.instance.ChangeMaterial(Material.Fire);
+            return;
+        }
+        
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            PlayerManager.instance.ChangeMaterial(Material.Rock);
+            return;
+        }
     }
     
     void ResetScene()
