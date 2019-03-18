@@ -10,6 +10,8 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D _rigidbody2D;
 
     private Vector2 _inputVector;
+
+    [HideInInspector] public int faceDirection; //1 = UP, 2 = RIGHT, 3 = DOWN, 4 = LEFT
     [HideInInspector] public bool _hasJumped; //whether or not the player has jumped recently, set to false when recently grounded/climbing
     [HideInInspector] public bool _isGrounded;
     [HideInInspector] public bool _wasGrounded;
@@ -136,6 +138,16 @@ public class PlayerMovement : MonoBehaviour
         Vector2 velocity = _rigidbody2D.velocity;
         Vector2 horizontalInput = new Vector2(_inputVector.x, 0);
 
+        //set face direction if horizontalInput != 0;
+        if (horizontalInput.x > 0)
+        {
+            faceDirection = 2;
+        }
+        else if (horizontalInput.x < 0)
+        {
+            faceDirection = 4;
+        }
+
         if (_isGrounded && _inputVector.x == 0)
         {
             //if the player is grounded and is no longer moving the character, apply drag to bring player to a fast stop
@@ -154,6 +166,16 @@ public class PlayerMovement : MonoBehaviour
         //handles vertical movement when climbing
         
         Vector3 verticalInput = new Vector2(0, _inputVector.y);
+        
+        //set face direction if verticalInput != 0;
+        if (verticalInput.y > 0)
+        {
+            faceDirection = 1;
+        }
+        else if (verticalInput.y < 0)
+        {
+            faceDirection = 3;
+        }
         
         _rigidbody2D.MovePosition(transform.position + (verticalInput * climbSpeed * Time.fixedDeltaTime));
     }
