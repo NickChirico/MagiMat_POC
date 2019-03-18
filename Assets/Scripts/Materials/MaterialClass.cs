@@ -19,7 +19,7 @@ public abstract class MaterialClass : MonoBehaviour
         MaterialsManager.AddMaterialScript(material, this);
     }
 
-    public abstract void Attack();
+    public abstract void Attack(GameObject player);
     
-    public abstract void Special();
+    public abstract void Special(GameObject player);
 }
