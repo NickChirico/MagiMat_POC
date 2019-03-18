@@ -13,4 +13,10 @@ public class MaterialsManager : MonoBehaviour
             MaterialsDict.Add(material, script);
         }
     }
+
+    public static MaterialClass GetMaterialScript(Material material)
+    {
+        MaterialsDict.TryGetValue(material, out MaterialClass newMaterialScript);
+        return newMaterialScript;
+    }
 }
