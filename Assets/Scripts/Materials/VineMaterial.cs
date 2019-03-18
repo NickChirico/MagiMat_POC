@@ -30,8 +30,9 @@ public class VineMaterial : MaterialClass
     public override void Special(GameObject player)
     {
         Debug.Log("Vine Special");
-        
-        Instantiate(VineSpecialObject, this.transform.position, Quaternion.Euler(new Vector2(0,0)));
+
+        Instantiate(VineSpecialObject, player.transform.position,
+            Quaternion.identity); //Quaternion.Euler(new Vector2(0,0)));
     }
     
 

@@ -6,35 +6,72 @@ public class VineSpecialObject : MonoBehaviour
 {
     GameObject player;
 
-    private Vector2 trajectory;
-    
+    private Vector3 trajectory;
+
+    private bool isFlying;
+    private bool JointEnabled;
+
+    public float GrappleStep;
+
+    public float MinGrappleDist;
+
+    DistanceJoint2D joint;
+
     private void Start()
     {
         player = PlayerManager.instance.gameObject;
-        trajectory = player.GetComponent<PlayerMovement>().InputVector;    
+        trajectory.x = player.GetComponent<PlayerMovement>().InputVector.x;    
+        trajectory.y = player.GetComponent<PlayerMovement>().InputVector.y;
+        trajectory.z = 0;
+
+        isFlying = true;
+        JointEnabled = false;
         
+        joint = player.gameObject.GetComponent<DistanceJoint2D>();
     }
 
     private void Update()
     {
-        /*DistanceJoint2D joint;
-        joint = player.gameObject.GetComponent<DistanceJoint2D>();
-
-        Vector3 targetPos = player.GetComponent<PlayerMovement>().InputVector * 8; //*range
-        targetPos.z = 0;
-
-        RaycastHit2D hit = Physics2D.Raycast(player.transform.position, targetPos - player.transform.position, 10f);
-        if (hit.collider != null && hit.collider.gameObject.GetComponent<Rigidbody2D>() != null)
+        if(isFlying)
+            this.transform.position += trajectory*0.15f;
+        else
         {
+        }
+
+        if (joint.enabled)
+        {
+            if (joint.distance > MinGrappleDist)
+            {
+                joint.distance -= GrappleStep;
+            }
+            else
+            {
+                joint.enabled = false;
+            }
+        }
+    }
+
+
+    private void OnCollisionEnter2D(Collision2D coll)
+    {
+        isFlying = false;
+        
+
+        
+
+        if (coll != null && coll.gameObject.GetComponent<Rigidbody2D>() != null)
+            
+        {
+            Debug.Log("CONTACT");
+
             joint.enabled = true;
-            joint.connectedBody = hit.collider.gameObject.GetComponent<Rigidbody2D>();
+            joint.connectedBody = coll.gameObject.GetComponent<Rigidbody2D>();
             joint.connectedAnchor =
-                hit.point - new Vector2(hit.collider.transform.position.x, hit.collider.transform.position.y);
-            joint.distance = Vector2.Distance(player.transform.position, hit.point);
+                coll.transform.position - new Vector3(coll.transform.position.x, coll.transform.position.y, 0);
+            joint.distance = Vector2.Distance(player.transform.position, coll.transform.position);
+        }
 
 
-        }*/
 
-        //this.transform.position = 
     }
 }
