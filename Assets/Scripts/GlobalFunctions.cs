@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class GlobalFunctions : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public static Vector2 FaceDirectionToVector2(int faceDirection)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        switch (faceDirection)
+        {
+            case 1:
+                return Vector2.up;
+            case 2:
+                return Vector2.right;
+            case 3:
+                return Vector2.down;
+            case 4:
+                return Vector2.left;
+            default:
+                return Vector2.zero;
+        }
     }
 }

@@ -25,6 +25,11 @@ public class PlayerManager : MonoBehaviour
         playerActions = GetComponent<PlayerActions>();
     }
 
+    void Start()
+    {
+        ChangeMaterial(Material.None);
+    }
+
     public void ChangeMaterial(Material newMaterial)
     {
         material = newMaterial;

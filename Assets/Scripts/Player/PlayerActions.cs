@@ -14,6 +14,9 @@ public class PlayerActions : MonoBehaviour
     
     private Vector2 _inputVector;
 
+    public float materialAbsorberSpeed;
+    public GameObject materialAbsorberPrefab;
+
     void Awake()
     {
         //assign components
@@ -35,6 +38,11 @@ public class PlayerActions : MonoBehaviour
         float vertical = Input.GetAxisRaw("Vertical");
         _inputVector = new Vector2(horizontal, vertical);
 
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            ThrowMaterialAbsorber(_inputVector);
+        }
+        
         if (Input.GetKeyDown(KeyCode.O))
         {
             Attack();
@@ -48,9 +56,17 @@ public class PlayerActions : MonoBehaviour
         DebugChangeMaterial();
     }
 
-    void ThrowMaterialAbsorber()
+    void ThrowMaterialAbsorber(Vector2 direction)
     {
+        if (direction == Vector2.zero)
+        {
+            direction = GlobalFunctions.FaceDirectionToVector2(PlayerManager.instance.playerMovement.faceDirection);
+        }
         
+        GameObject projectile = Instantiate(materialAbsorberPrefab, transform.position, Quaternion.identity);
+        
+        Rigidbody2D projRB = projectile.GetComponent<Rigidbody2D>();
+        projRB.velocity = direction.normalized * materialAbsorberSpeed;
     }
     
     void Attack()
