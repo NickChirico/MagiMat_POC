@@ -8,6 +8,8 @@ public class MaterialAbsorberProjectile : MonoBehaviour
 
     public float maxDistance;
     private float _distanceTravelled;
+
+    public PlayerActions playerActionScript;
     
     void Awake()
     {
@@ -19,7 +21,7 @@ public class MaterialAbsorberProjectile : MonoBehaviour
         _distanceTravelled += _rigidbody2D.velocity.magnitude * Time.deltaTime;
         if (_distanceTravelled >= maxDistance)
         {
-            Destroy(this.gameObject);
+            DestroySelf();
         }
     }
 
@@ -52,7 +54,13 @@ public class MaterialAbsorberProjectile : MonoBehaviour
                 }
             }
         }
-        
-        Destroy(this.gameObject);
+
+        DestroySelf();
+    }
+
+    private void DestroySelf()
+    {
+        playerActionScript.materialAbsorberOut = false;
+        Destroy(this.gameObject);  
     }
 }

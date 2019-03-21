@@ -44,6 +44,9 @@ JetBrains.Rider.Unity.Editor.Plugin.Repacked.dll.meta
 assets/Plugins/Editor/JetBrains.meta
 assets/Plugins/Editor/JetBrains/*
 
+Assets/Plugins.meta
+Assets/Plugins/Editor.meta
+
 # comment these out if you wish to commit the asset store tools plugins
 assets/AssetStoreTools*
 Assets/AssetStoreTools*

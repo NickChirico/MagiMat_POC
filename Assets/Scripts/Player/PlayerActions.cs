@@ -13,7 +13,10 @@ public class PlayerActions : MonoBehaviour
     private Collider2D _collider;
     
     private Vector2 _inputVector;
+    private Vector2 _mousePos;
+    private Vector2 _mouseDirection;
 
+    public bool materialAbsorberOut;
     public float materialAbsorberSpeed;
     public GameObject materialAbsorberPrefab;
 
@@ -37,18 +40,23 @@ public class PlayerActions : MonoBehaviour
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
         _inputVector = new Vector2(horizontal, vertical);
+        
+        //get mousePos and mouseDirection
+        _mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 playerPos = transform.position;
+        _mouseDirection = _mousePos - playerPos;
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetMouseButtonDown(1) && !materialAbsorberOut)
         {
-            ThrowMaterialAbsorber(_inputVector);
+            ThrowMaterialAbsorber(_mouseDirection);
         }
         
-        if (Input.GetKeyDown(KeyCode.O))
+        if (Input.GetMouseButtonDown(0))
         {
             Attack();
         }
         
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             Special();
         }
@@ -58,15 +66,19 @@ public class PlayerActions : MonoBehaviour
 
     void ThrowMaterialAbsorber(Vector2 direction)
     {
-        if (direction == Vector2.zero)
+        materialAbsorberOut = true;
+        
+        //for aiming via inputAxis
+        /*if (direction == Vector2.zero)
         {
             direction = GlobalFunctions.FaceDirectionToVector2(PlayerManager.instance.playerMovement.faceDirection);
-        }
+        }*/
         
         GameObject projectile = Instantiate(materialAbsorberPrefab, transform.position, Quaternion.identity);
         
         Rigidbody2D projRB = projectile.GetComponent<Rigidbody2D>();
         projRB.velocity = direction.normalized * materialAbsorberSpeed;
+        projRB.GetComponent<MaterialAbsorberProjectile>().playerActionScript = this;
     }
     
     void Attack()

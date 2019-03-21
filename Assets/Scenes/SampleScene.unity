@@ -780,15 +780,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   faceDirection: 0
-  _hasJumped: 0
-  _isGrounded: 0
-  _wasGrounded: 0
-  _isClimbing: 0
-  acceleration: 1000
+  hasJumped: 0
+  isGrounded: 0
+  wasGrounded: 0
+  isClimbing: 0
+  canClimb: 0
+  acceleration: 5000
   groundFriction: 500
   maxMoveSpeed: 5
   climbSpeed: 3
   jumpPower: 15
+  nearbyClimbable: {fileID: 0}
   groundLayers:
     serializedVersion: 2
     m_Bits: 256
@@ -824,6 +826,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d80e758a0a1f3644900c62dba08ea17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  materialAbsorberOut: 0
   materialAbsorberSpeed: 5
   materialAbsorberPrefab: {fileID: 5649834849070784572, guid: f961469beb86b2448b8ffc24273c7934,
     type: 3}
@@ -1269,6 +1272,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Size.y
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6719528327427815633, guid: ce0d4780566cfe747bb560d498e5b08b,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce0d4780566cfe747bb560d498e5b08b, type: 3}
