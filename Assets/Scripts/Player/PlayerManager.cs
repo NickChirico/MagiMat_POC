@@ -13,6 +13,8 @@ public class PlayerManager : MonoBehaviour
     [HideInInspector] public PlayerHealth playerHealth;
     [HideInInspector] public PlayerActions playerActions;
 
+    public GameObject player;
+
     public Material material;
     [HideInInspector] public MaterialClass materialScript;
 
@@ -23,6 +25,8 @@ public class PlayerManager : MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
         playerHealth = GetComponent<PlayerHealth>();
         playerActions = GetComponent<PlayerActions>();
+
+        player = this.gameObject;
     }
 
     void Start()

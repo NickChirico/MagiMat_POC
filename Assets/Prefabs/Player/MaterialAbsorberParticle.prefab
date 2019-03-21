@@ -9,12 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3942931218178607990}
-  - component: {fileID: 385169386724710432}
+  - component: {fileID: 6107091505140451544}
   - component: {fileID: 7369232999221487594}
-  - component: {fileID: 3795080894837513022}
   - component: {fileID: 7588730574867889371}
   m_Layer: 0
-  m_Name: MaterialAbsorberProjectile
+  m_Name: MaterialAbsorberParticle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,12 +28,12 @@ Transform:
   m_GameObject: {fileID: 5649834849070784572}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &385169386724710432
+--- !u!114 &6107091505140451544
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,14 +42,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 5649834849070784572}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a0c537dc1400834488bd70543275018, type: 3}
+  m_Script: {fileID: 11500000, guid: 9593d7ffb44ab4f438b2766a5e020f67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDistance: 5
-  particlePrefab: {fileID: 5649834849070784572, guid: 29a0887fc3c31ee449c94172ee81fc7b,
-    type: 3}
-  particleAmount: 5
-  playerActionScript: {fileID: 0}
+  moveSpeed: 10
+  explosionSpeed: 3
+  timeTilReturn: 1
+  explosionRadius: 0.5
 --- !u!212 &7369232999221487594
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -85,8 +83,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 563771505
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 85ea8f59349b4fb47a696f629b8ac65f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -99,22 +97,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &3795080894837513022
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5649834849070784572}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.4
 --- !u!50 &7588730574867889371
 Rigidbody2D:
   serializedVersion: 4

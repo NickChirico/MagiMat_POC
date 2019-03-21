@@ -9,6 +9,9 @@ public class MaterialAbsorberProjectile : MonoBehaviour
     public float maxDistance;
     private float _distanceTravelled;
 
+    public GameObject particlePrefab;
+    public int particleAmount;
+    
     public PlayerActions playerActionScript;
     
     void Awake()
@@ -40,6 +43,7 @@ public class MaterialAbsorberProjectile : MonoBehaviour
                 if (enemyScript.material != Material.None)
                 {
                     PlayerManager.instance.ChangeMaterial(enemyScript.material);
+                    SpawnParticles();
                 }
             }
         } 
@@ -51,6 +55,7 @@ public class MaterialAbsorberProjectile : MonoBehaviour
                 if (materialSourceScript.material != Material.None)
                 {
                     PlayerManager.instance.ChangeMaterial(materialSourceScript.material);
+                    SpawnParticles();
                 }
             }
         }
@@ -58,6 +63,15 @@ public class MaterialAbsorberProjectile : MonoBehaviour
         DestroySelf();
     }
 
+    private void SpawnParticles()
+    {
+        for (int i = 0; i < particleAmount; i++)
+        {
+            Vector2 pos = transform.position;
+            GameObject particle = Instantiate(particlePrefab, pos, Quaternion.identity);
+        }
+    }
+    
     private void DestroySelf()
     {
         playerActionScript.materialAbsorberOut = false;

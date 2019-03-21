@@ -208,6 +208,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: FireSource
       objectReference: {fileID: 0}
+    - target: {fileID: 4574878047826534114, guid: 5f6a20ca021532c4398abc4129f3a47f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 4574878047826534113, guid: 5f6a20ca021532c4398abc4129f3a47f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -331,6 +336,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   material: 2
+  attackUseFaceDirection: 0
+  attackDamage: 0
+  attackOffset: 1
+  attackHitMultipleTargets: 0
+  attackSize: {x: 1, y: 1.5}
+  hurtBoxPrefab: {fileID: 2672472757980954087, guid: 7e860a2073a4f164790632dedb31aefe,
+    type: 3}
   specialDashDistance: 5
   specialDashTime: 0.1
 --- !u!114 &471815380
@@ -346,6 +358,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   material: 1
+  attackUseFaceDirection: 0
+  attackDamage: 0
+  attackOffset: 1.7
+  attackHitMultipleTargets: 0
+  attackSize: {x: 2.5, y: 0.7}
+  hurtBoxPrefab: {fileID: 2672472757980954087, guid: 7e860a2073a4f164790632dedb31aefe,
+    type: 3}
+  onGrapple: 0
+  grappleShootSpeed: 20
+  grappleSpeed: 10
+  maxGrappleDistance: 10
+  maxGrappleTime: 3
+  grappleLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  grapplePrefab: {fileID: 1036641132711709671, guid: 7659b91983df99043b020fc199cb68fc,
+    type: 3}
 --- !u!114 &471815381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -359,6 +388,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   material: 0
+  attackUseFaceDirection: 0
+  attackDamage: 0
+  attackOffset: 1
+  attackHitMultipleTargets: 0
+  attackSize: {x: 0.7, y: 1}
+  hurtBoxPrefab: {fileID: 2672472757980954087, guid: 7e860a2073a4f164790632dedb31aefe,
+    type: 3}
 --- !u!114 &471815382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -578,6 +614,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RockSource
       objectReference: {fileID: 0}
+    - target: {fileID: 4574878047826534114, guid: b6c8b5a417241db478f95b33813bfb7e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 4574878047826534113, guid: b6c8b5a417241db478f95b33813bfb7e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -785,7 +826,8 @@ MonoBehaviour:
   wasGrounded: 0
   isClimbing: 0
   canClimb: 0
-  acceleration: 5000
+  canMove: 0
+  acceleration: 2000
   groundFriction: 500
   maxMoveSpeed: 5
   climbSpeed: 3
@@ -793,10 +835,11 @@ MonoBehaviour:
   nearbyClimbable: {fileID: 0}
   groundLayers:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 4352
   climbableLayers:
     serializedVersion: 2
     m_Bits: 512
+  gravityScale: 0
 --- !u!114 &1426017030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -812,6 +855,7 @@ MonoBehaviour:
   playerMovement: {fileID: 0}
   playerHealth: {fileID: 0}
   playerActions: {fileID: 0}
+  player: {fileID: 0}
   material: 0
   materialScript: {fileID: 0}
 --- !u!114 &1426017031
@@ -826,6 +870,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d80e758a0a1f3644900c62dba08ea17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputVector: {x: 0, y: 0}
+  mousePos: {x: 0, y: 0}
+  mouseDirection: {x: 0, y: 0}
   materialAbsorberOut: 0
   materialAbsorberSpeed: 5
   materialAbsorberPrefab: {fileID: 5649834849070784572, guid: f961469beb86b2448b8ffc24273c7934,
@@ -1044,6 +1091,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: VineSource
+      objectReference: {fileID: 0}
+    - target: {fileID: 4574878047826534114, guid: 9c1f7373c2884e94d9e9f9fa8ebebe81,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 4574878047826534113, guid: 9c1f7373c2884e94d9e9f9fa8ebebe81,
         type: 3}

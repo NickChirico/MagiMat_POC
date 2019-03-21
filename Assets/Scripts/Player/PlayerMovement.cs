@@ -19,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector] public bool wasGrounded;
     [HideInInspector] public bool isClimbing;
     [HideInInspector] public bool canClimb;
+    [HideInInspector] public bool canMove;
     
     //movement stats
     public float acceleration;
@@ -32,7 +33,7 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask groundLayers;
     public LayerMask climbableLayers;
     
-    private float _gravityScale;
+    public float gravityScale;
 
     void Awake()
     { 
@@ -40,7 +41,9 @@ public class PlayerMovement : MonoBehaviour
         _rigidbody2D = GetComponent<Rigidbody2D>();
 
         //store original gravity scale in case it is changed later
-        _gravityScale = _rigidbody2D.gravityScale;
+        gravityScale = _rigidbody2D.gravityScale;
+
+        canMove = true;
     }
 
     void Update()
@@ -60,12 +63,11 @@ public class PlayerMovement : MonoBehaviour
         }
         
         //player can jump if grounded or climbing and has not jumped recently
-        if (Input.GetKeyDown(KeyCode.Space) && (isGrounded || isClimbing) && !hasJumped)
+        if (Input.GetKeyDown(KeyCode.Space) && (isGrounded || isClimbing) && !hasJumped && canMove)
         {
             if (isClimbing)
             {
                 StoppedClimbing();
-                _rigidbody2D.gravityScale = _gravityScale;
             }
             Jump(jumpPower);
            hasJumped = true;
@@ -100,20 +102,22 @@ public class PlayerMovement : MonoBehaviour
             if (!ClimbableNearby())
             {
                 StoppedClimbing();
-                _rigidbody2D.gravityScale = _gravityScale;
             }
         }
     }
 
     void FixedUpdate()
     {
-        if (isClimbing)
+        if (canMove)
         {
-            Climb();
-        }
-        else
-        {
-            Run();
+            if (isClimbing)
+            {
+                Climb();
+            }
+            else
+            {
+                Run();
+            }
         }
     }
 
@@ -237,5 +241,6 @@ public class PlayerMovement : MonoBehaviour
     {
         isClimbing = false;
         canClimb = false;
+        _rigidbody2D.gravityScale = gravityScale;
     }
 }

@@ -12,9 +12,9 @@ public class PlayerActions : MonoBehaviour
     private Rigidbody2D _rigidbody2D;
     private Collider2D _collider;
     
-    private Vector2 _inputVector;
-    private Vector2 _mousePos;
-    private Vector2 _mouseDirection;
+    public Vector2 inputVector;
+    public Vector2 mousePos;
+    public Vector2 mouseDirection;
 
     public bool materialAbsorberOut;
     public float materialAbsorberSpeed;
@@ -39,16 +39,16 @@ public class PlayerActions : MonoBehaviour
         //axis inputs to Vector2
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
-        _inputVector = new Vector2(horizontal, vertical);
+        inputVector = new Vector2(horizontal, vertical);
         
         //get mousePos and mouseDirection
-        _mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 playerPos = transform.position;
-        _mouseDirection = _mousePos - playerPos;
+        mouseDirection = (mousePos - playerPos).normalized;
 
         if (Input.GetMouseButtonDown(1) && !materialAbsorberOut)
         {
-            ThrowMaterialAbsorber(_mouseDirection);
+            ThrowMaterialAbsorber(mouseDirection);
         }
         
         if (Input.GetMouseButtonDown(0))
@@ -77,7 +77,7 @@ public class PlayerActions : MonoBehaviour
         GameObject projectile = Instantiate(materialAbsorberPrefab, transform.position, Quaternion.identity);
         
         Rigidbody2D projRB = projectile.GetComponent<Rigidbody2D>();
-        projRB.velocity = direction.normalized * materialAbsorberSpeed;
+        projRB.velocity = direction * materialAbsorberSpeed;
         projRB.GetComponent<MaterialAbsorberProjectile>().playerActionScript = this;
     }
     
