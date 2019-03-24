@@ -78,7 +78,6 @@ public class PlayerActions : MonoBehaviour
         
         Rigidbody2D projRB = projectile.GetComponent<Rigidbody2D>();
         projRB.velocity = direction * materialAbsorberSpeed;
-        projRB.GetComponent<MaterialAbsorberProjectile>().playerActionScript = this;
     }
     
     void Attack()

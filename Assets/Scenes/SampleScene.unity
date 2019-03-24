@@ -323,6 +323,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   material: 3
+  attackDamage: 1
+  attackMoveSpeed: 5
+  attackOffset: {x: 0.7, y: -0.2}
+  attackHitMultipleTargets: 0
+  attackSize: {x: 0.5, y: 0.5}
+  hurtBoxPrefab: {fileID: 2672472757980954087, guid: 111831dfd22261f4c9ef41a3173efdd7,
+    type: 3}
+  specialRadius: 1
+  numberOfProjectiles: 8
+  projectileSpeed: 5
+  projectilePrefab: {fileID: 5649834849070784572, guid: 773a783091975b24fa48da046732b120,
+    type: 3}
 --- !u!114 &471815379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -337,7 +349,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   material: 2
   attackUseFaceDirection: 0
-  attackDamage: 0
+  attackDamage: 1
   attackOffset: 1
   attackHitMultipleTargets: 0
   attackSize: {x: 1, y: 1.5}
@@ -359,7 +371,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   material: 1
   attackUseFaceDirection: 0
-  attackDamage: 0
+  attackDamage: 1
   attackOffset: 1.7
   attackHitMultipleTargets: 0
   attackSize: {x: 2.5, y: 0.7}
@@ -389,7 +401,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   material: 0
   attackUseFaceDirection: 0
-  attackDamage: 0
+  attackDamage: 1
   attackOffset: 1
   attackHitMultipleTargets: 0
   attackSize: {x: 0.7, y: 1}
@@ -889,6 +901,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60a0450eb1bf01c42b8cf0349ff81595, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPlayerDead: 0
   health: 5
 --- !u!1 &2105698816
 GameObject:

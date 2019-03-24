@@ -12,8 +12,6 @@ public class MaterialAbsorberProjectile : MonoBehaviour
     public GameObject particlePrefab;
     public int particleAmount;
     
-    public PlayerActions playerActionScript;
-    
     void Awake()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
@@ -74,7 +72,7 @@ public class MaterialAbsorberProjectile : MonoBehaviour
     
     private void DestroySelf()
     {
-        playerActionScript.materialAbsorberOut = false;
+        PlayerManager.instance.playerActions.materialAbsorberOut = false;
         Destroy(this.gameObject);  
     }
 }
