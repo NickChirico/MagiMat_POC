@@ -92,7 +92,7 @@ public class PlayerActions : MonoBehaviour
         {
             _groundPounding = true;
             this._rigidbody2D.AddForce(new Vector2(0,_downwardStompSpeed));
-        } 
+        }
     }
     
     void Special()
@@ -138,8 +138,6 @@ public class PlayerActions : MonoBehaviour
         {
             _groundPounding = false;
         }  
-        //On Fire Attack, light torches
-        
     }
     
    

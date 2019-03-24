@@ -14,6 +14,7 @@ public class HurtBox : MonoBehaviour
     
     protected virtual void Awake()
     {
+        Debug.Log("RUN");
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _boxCollider = GetComponent<BoxCollider2D>();
     }
@@ -21,5 +22,14 @@ public class HurtBox : MonoBehaviour
     protected virtual void Start()
     {
         Destroy(this.gameObject, lifetime);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        Debug.Log("ENTER");
+        if (PlayerManager.instance.material == Material.Fire && other.gameObject.CompareTag("Torch"))
+        {
+            Debug.Log("BURN");
+        }
     }
 }

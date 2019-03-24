@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Enemy
   - MaterialSource
+  - Breakable
+  - HurtBox
+  - Torch
   layers:
   - Default
   - TransparentFX
