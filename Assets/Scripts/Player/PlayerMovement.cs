@@ -12,29 +12,38 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 _inputVector;
 
     [HideInInspector] public int faceDirection; //1 = UP, 2 = RIGHT, 3 = DOWN, 4 = LEFT
-    [HideInInspector] public bool _hasJumped; //whether or not the player has jumped recently, set to false when recently grounded/climbing
-    [HideInInspector] public bool _isGrounded;
-    [HideInInspector] public bool _wasGrounded;
-    [HideInInspector] public bool _isClimbing;
     
+    //states
+    [HideInInspector] public bool hasJumped; //whether or not the player has jumped recently, set to false when recently grounded/climbing
+    [HideInInspector] public bool isGrounded;
+    [HideInInspector] public bool wasGrounded;
+    [HideInInspector] public bool isClimbing;
+    [HideInInspector] public bool canClimb;
+    [HideInInspector] public bool canMove;
+    
+    //movement stats
     public float acceleration;
     public float groundFriction; //drag force
     public float maxMoveSpeed; //max horizontal velocity, does not cap velocity, instead determines when more force can be added
     public float climbSpeed;
     public float jumpPower;
 
+    public Collider2D nearbyClimbable;
+    
     public LayerMask groundLayers;
     public LayerMask climbableLayers;
     
-    private float _gravityScale;
+    public float gravityScale;
 
     void Awake()
     { 
         //assign components
         _rigidbody2D = GetComponent<Rigidbody2D>();
 
-        //remember original gravity scale in case it is changed later
-        _gravityScale = _rigidbody2D.gravityScale;
+        //store original gravity scale in case it is changed later
+        gravityScale = _rigidbody2D.gravityScale;
+
+        canMove = true;
     }
 
     void Update()
@@ -46,40 +55,44 @@ public class PlayerMovement : MonoBehaviour
 
         //grounded check and check if the player was recently grounded
         //if player was recently grounded, set _hasJumped to false
-        _wasGrounded = _isGrounded;
-        _isGrounded = GroundedCheck();
-        if (_isGrounded && !_wasGrounded)
+        wasGrounded = isGrounded;
+        isGrounded = GroundedCheck();
+        if (isGrounded && !wasGrounded)
         {
-            _hasJumped = false;
+            hasJumped = false;
         }
         
         //player can jump if grounded or climbing and has not jumped recently
-        if (Input.GetKeyDown(KeyCode.Space) && (_isGrounded || _isClimbing) && !_hasJumped)
+        if (Input.GetKeyDown(KeyCode.Space) && (isGrounded || isClimbing) && !hasJumped && canMove)
         {
-            if (_isClimbing)
+            if (isClimbing)
             {
-                _isClimbing = false;
-                _rigidbody2D.gravityScale = _gravityScale;
+                StoppedClimbing();
             }
             Jump(jumpPower);
-            _hasJumped = true;
+           hasJumped = true;
         }
 
         //if the player is not currently climbing, circleCast nearby to look for climbables
         //if there is a nearby climbable, press W to start climbing
-        if (!_isClimbing)
+        if (!isClimbing)
         {
-            Collider2D climbable = ClimbableNearby();
-            if (climbable)
+            if (nearbyClimbable != ClimbableNearby())
             {
-                if (Input.GetKey(KeyCode.W))
+                nearbyClimbable = ClimbableNearby();
+                canClimb = true;
+            }
+
+            if (nearbyClimbable)
+            {
+                if (Input.GetKey(KeyCode.W) && canClimb)
                 {
                     //changes for changing movement mode to climbing
-                    _isClimbing = true;
-                    _hasJumped = false;
+                    isClimbing = true;
+                    hasJumped = false;
                     _rigidbody2D.gravityScale = 0;
                     _rigidbody2D.velocity = Vector2.zero;
-                    SnapXToClimbable(climbable);
+                    SnapXToClimbable(nearbyClimbable);
                 }
             }
         }
@@ -88,21 +101,23 @@ public class PlayerMovement : MonoBehaviour
             //if player is climbing, check if they are still on the climbable
             if (!ClimbableNearby())
             {
-                _isClimbing = false;
-                _rigidbody2D.gravityScale = _gravityScale;
+                StoppedClimbing();
             }
         }
     }
 
     void FixedUpdate()
     {
-        if (_isClimbing)
+        if (canMove)
         {
-            Climb();
-        }
-        else
-        {
-            Run();
+            if (isClimbing)
+            {
+                Climb();
+            }
+            else
+            {
+                Run();
+            }
         }
     }
 
@@ -147,17 +162,47 @@ public class PlayerMovement : MonoBehaviour
         {
             faceDirection = 4;
         }
+        
+        //get player's current velocity direction and input directions
+        int currentDirection = 0;
+        int moveDirection = 0;
 
-        if (_isGrounded && _inputVector.x == 0)
+        if (_rigidbody2D.velocity.x < 0)
+        {
+            currentDirection = -1;
+        } 
+        else if (_rigidbody2D.velocity.x > 0)
+        {
+            currentDirection = 1;
+        }
+
+        if (_inputVector.x < 0)
+        {
+            moveDirection = -1;
+        }
+        else if (_inputVector.x > 0)
+        {
+            moveDirection = 1;
+        }
+        
+        if (isGrounded && moveDirection == 0)
         {
             //if the player is grounded and is no longer moving the character, apply drag to bring player to a fast stop
             Vector2 velocityX = new Vector2(velocity.x, 0);
             _rigidbody2D.AddForce(velocityX * -groundFriction * Time.fixedDeltaTime);
         } 
-        else if (Mathf.Abs(velocity.x) < maxMoveSpeed)
+        else if (moveDirection == currentDirection)
         {
-            //add force to player in input direction, only runs if player is not already at its maxMoveSpeed
-            _rigidbody2D.AddForce(horizontalInput * acceleration * Time.fixedDeltaTime, ForceMode2D.Force);
+            if (Mathf.Abs(velocity.x) < maxMoveSpeed)
+            {
+                //if the player is moving forward (same direction as previous frame), don't apply force if velocity is past maxMoveSpeed
+                _rigidbody2D.AddForce(horizontalInput * acceleration * Time.fixedDeltaTime, ForceMode2D.Force);
+            }
+        }
+        else
+        {
+                //if the player is changing direction, don't check maxMoveSpeed
+                _rigidbody2D.AddForce(horizontalInput * acceleration * Time.fixedDeltaTime, ForceMode2D.Force);
         }
     }
 
@@ -188,6 +233,14 @@ public class PlayerMovement : MonoBehaviour
         Vector2 velocity = _rigidbody2D.velocity;
         velocity.y = 0;
         _rigidbody2D.velocity = velocity;
+
         _rigidbody2D.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
+    }
+
+    void StoppedClimbing()
+    {
+        isClimbing = false;
+        canClimb = false;
+        _rigidbody2D.gravityScale = gravityScale;
     }
 }

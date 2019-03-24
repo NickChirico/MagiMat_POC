@@ -1,14 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 //handles player health, death?, collisions?
 
 public class PlayerHealth : MonoBehaviour
 {
+
+    public static PlayerHealth PhStatic;
+    
     private SpriteRenderer _spriteRenderer;
     private Rigidbody2D _rigidbody2D;
     private Collider2D _collider;
+    public bool isPlayerDead = false;
 
     public float health; //TODO: maybe change to int?
 
@@ -27,12 +32,24 @@ public class PlayerHealth : MonoBehaviour
         if (health <= 0)
         {
             PlayerManager.instance.Death();
+            StartCoroutine(DeathCoroutine());
+            isPlayerDead = true;
+        }
+        else
+        {
+            isPlayerDead = false;
         }
     }
-
+    
     //call this method to deal damage to player
     public void TakeDamage(float damageAmount)
     {
         health -= damageAmount;
+    }
+
+    IEnumerator DeathCoroutine()
+    {
+        //TODO: Death animation/Menu/Overlay?
+        yield break;
     }
 }

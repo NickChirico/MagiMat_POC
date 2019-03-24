@@ -12,8 +12,11 @@ public class PlayerActions : MonoBehaviour
     private Rigidbody2D _rigidbody2D;
     private Collider2D _collider;
     
-    private Vector2 _inputVector;
+    public Vector2 inputVector;
+    public Vector2 mousePos;
+    public Vector2 mouseDirection;
 
+    public bool materialAbsorberOut;
     public float materialAbsorberSpeed;
     public GameObject materialAbsorberPrefab;
 
@@ -36,19 +39,24 @@ public class PlayerActions : MonoBehaviour
         //axis inputs to Vector2
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
-        _inputVector = new Vector2(horizontal, vertical);
+        inputVector = new Vector2(horizontal, vertical);
+        
+        //get mousePos and mouseDirection
+        mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 playerPos = transform.position;
+        mouseDirection = (mousePos - playerPos).normalized;
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetMouseButtonDown(1) && !materialAbsorberOut)
         {
-            ThrowMaterialAbsorber(_inputVector);
+            ThrowMaterialAbsorber(mouseDirection);
         }
         
-        if (Input.GetKeyDown(KeyCode.O))
+        if (Input.GetMouseButtonDown(0))
         {
             Attack();
         }
         
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             Special();
         }
@@ -58,15 +66,18 @@ public class PlayerActions : MonoBehaviour
 
     void ThrowMaterialAbsorber(Vector2 direction)
     {
-        if (direction == Vector2.zero)
+        materialAbsorberOut = true;
+        
+        //for aiming via inputAxis
+        /*if (direction == Vector2.zero)
         {
             direction = GlobalFunctions.FaceDirectionToVector2(PlayerManager.instance.playerMovement.faceDirection);
-        }
+        }*/
         
         GameObject projectile = Instantiate(materialAbsorberPrefab, transform.position, Quaternion.identity);
         
         Rigidbody2D projRB = projectile.GetComponent<Rigidbody2D>();
-        projRB.velocity = direction.normalized * materialAbsorberSpeed;
+        projRB.velocity = direction * materialAbsorberSpeed;
     }
     
     void Attack()

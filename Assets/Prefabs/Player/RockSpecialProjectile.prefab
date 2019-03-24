@@ -9,12 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3942931218178607990}
-  - component: {fileID: 385169386724710432}
+  - component: {fileID: 9031150723500172713}
   - component: {fileID: 7369232999221487594}
   - component: {fileID: 3795080894837513022}
   - component: {fileID: 7588730574867889371}
   m_Layer: 0
-  m_Name: MaterialAbsorberProjectile
+  m_Name: RockSpecialProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34,7 +34,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &385169386724710432
+--- !u!114 &9031150723500172713
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,14 +43,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 5649834849070784572}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a0c537dc1400834488bd70543275018, type: 3}
+  m_Script: {fileID: 11500000, guid: 60e2dcb6f6515e1468a067b8d39ccf6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDistance: 5
-  particlePrefab: {fileID: 5649834849070784572, guid: 29a0887fc3c31ee449c94172ee81fc7b,
-    type: 3}
-  particleAmount: 5
-  playerActionScript: {fileID: 0}
+  tagWeAffect: Enemy
+  maxDistance: 20
 --- !u!212 &7369232999221487594
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -89,7 +86,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 85ea8f59349b4fb47a696f629b8ac65f, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
