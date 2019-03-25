@@ -22,4 +22,12 @@ public class HurtBox : MonoBehaviour
     {
         Destroy(this.gameObject, lifetime);
     }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (PlayerManager.instance.material == Material.Fire && other.gameObject.CompareTag("Torch"))
+        {
+            Debug.Log("BURN");
+        }
+    }
 }

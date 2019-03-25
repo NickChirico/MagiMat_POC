@@ -26,10 +26,11 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
     }
 }
 
-public class FireToad : Enemy
+/*public class FireToad : Enemy
 {
     [HideInInspector] public bool _isGrounded;
     [HideInInspector] public bool _isJumping;
@@ -76,6 +77,9 @@ public class FireToad : Enemy
             _isGrounded = true;
         }
     }
+<<<<<<< HEAD
+}*/
+=======
 }
 
 
@@ -135,3 +139,4 @@ public class StoneGolem : Enemy
    
 }
 
+>>>>>>> origin/master

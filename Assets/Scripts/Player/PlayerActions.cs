@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -19,6 +20,9 @@ public class PlayerActions : MonoBehaviour
     public bool materialAbsorberOut;
     public float materialAbsorberSpeed;
     public GameObject materialAbsorberPrefab;
+
+    private float _downwardStompSpeed = -1000f;
+    private bool _groundPounding = false;
 
     void Awake()
     {
@@ -83,6 +87,12 @@ public class PlayerActions : MonoBehaviour
     void Attack()
     {
         PlayerManager.instance.materialScript.Attack(this.gameObject);
+        //Ground pound with Rock Abilities
+        if (PlayerManager.instance.material == Material.Rock)
+        {
+            _groundPounding = true;
+            this._rigidbody2D.AddForce(new Vector2(0,_downwardStompSpeed));
+        }
     }
     
     void Special()
@@ -116,7 +126,22 @@ public class PlayerActions : MonoBehaviour
             return;
         }
     }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        //On Ground Pound, break Breakable ground pieces
+        if (_groundPounding && other.gameObject.CompareTag("Breakable"))
+        {
+            Destroy(other.gameObject);
+        }
+        else if (_groundPounding)
+        {
+            _groundPounding = false;
+        }  
+    }
     
+   
+
     void ResetScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
