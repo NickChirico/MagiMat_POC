@@ -2,41 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class FireToad : MonoBehaviour
 {
     
+     
     protected Rigidbody2D _rigidbody2D;
-    protected SpriteRenderer _spriteRenderer;
-
-    public Material material;
-    
-    protected virtual void Awake()
-    {
-        _rigidbody2D = GetComponent<Rigidbody2D>();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-    }
-
-    
-    // Start is called before the first frame update
+    public bool _isGrounded;
+    public bool _isJumping;
+    public float jumpPower;
+    public GameObject Fireball;
+    LayerMask layerMask = 1 << 8;
     void Start()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-}
-
-/*public class FireToad : Enemy
-{
-    [HideInInspector] public bool _isGrounded;
-    [HideInInspector] public bool _isJumping;
-    public float jumpPower;
-    public GameObject Fireball;
-    
     void Update()
     {
         //Will jump if it is on the ground and isn't already in the jumping process
@@ -61,20 +40,26 @@ public class Enemy : MonoBehaviour
     {
         _isJumping = true;
         float JumpWait = 3;
-        float AttackWait = Random.Range(.2f, .3f);
+        float AttackWait = Random.Range(.3f, .4f);
         yield return new WaitForSeconds(JumpWait);
         Jump(jumpPower);
         _isGrounded = false;
         yield return new WaitForSeconds(AttackWait);
         GameObject FireballClone = Instantiate(Fireball, transform.position, Quaternion.identity);
+        _isJumping = false;
     }
 
     //Set grounded when on the ground
-    private void OnCollisionEnter(Collision other)
+    private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.layer == 8)
         {
             _isGrounded = true;
         }
+
+        if (other.gameObject.CompareTag("HurtBox"))
+        {
+            Destroy(gameObject);
+        }
     }
-}*/
+}
