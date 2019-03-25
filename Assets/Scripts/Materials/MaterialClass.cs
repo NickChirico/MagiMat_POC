@@ -16,6 +16,7 @@ public abstract class MaterialClass : MonoBehaviour
 
     protected virtual void Start()
     {
+        //at start, add this script's material with a reference to this script to the Materials dictionary
         MaterialsManager.AddMaterialScript(material, this);
     }
 

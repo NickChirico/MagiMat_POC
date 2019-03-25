@@ -102,6 +102,8 @@ public class PlayerActions : MonoBehaviour
     
     void DebugChangeMaterial()
     {
+        //FOR DEBUGGING
+        //Press 1-4 to manually change your material
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             PlayerManager.instance.ChangeMaterial(Material.None);

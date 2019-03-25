@@ -16,6 +16,8 @@ public class RockSpecialProjectile : Projectile
     
     public override void Update()
     {
+        //keep track of distance travelled
+        //destroy projectile if it reaches its max distance travelled
         _distanceTravelled += _rigidbody2D.velocity.magnitude * Time.deltaTime;
         if (_distanceTravelled >= maxDistance)
         {

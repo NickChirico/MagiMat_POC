@@ -36,6 +36,7 @@ public class PlayerManager : MonoBehaviour
 
     public void ChangeMaterial(Material newMaterial)
     {
+        //use this method to change the player's material
         material = newMaterial;
         materialScript = MaterialsManager.GetMaterialScript(newMaterial);
         

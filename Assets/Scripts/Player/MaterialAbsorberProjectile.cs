@@ -19,6 +19,8 @@ public class MaterialAbsorberProjectile : MonoBehaviour
 
     void Update()
     {
+        //track how far the projectile has moved so far
+        //when the projectile reaches its max distance, destroy it
         _distanceTravelled += _rigidbody2D.velocity.magnitude * Time.deltaTime;
         if (_distanceTravelled >= maxDistance)
         {
@@ -30,11 +32,14 @@ public class MaterialAbsorberProjectile : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            //do nothing when hitting the player
+            //return so the projectile is not destroyed
             return;
         }
         
         if (other.CompareTag("Enemy"))
         {
+            //on collision with an enemy, take the material from the enemy script
             Enemy enemyScript = other.GetComponent<Enemy>();
             if (enemyScript != null)
             {
@@ -47,6 +52,7 @@ public class MaterialAbsorberProjectile : MonoBehaviour
         } 
         else if (other.CompareTag("MaterialSource"))
         {
+            //on collision with a material source, take its material
             MaterialSource materialSourceScript = other.GetComponent<MaterialSource>();
             if (materialSourceScript != null)
             {
@@ -63,6 +69,7 @@ public class MaterialAbsorberProjectile : MonoBehaviour
 
     private void SpawnParticles()
     {
+        //instantiate any number of particle prefabs when the projectile collides with something
         for (int i = 0; i < particleAmount; i++)
         {
             Vector2 pos = transform.position;

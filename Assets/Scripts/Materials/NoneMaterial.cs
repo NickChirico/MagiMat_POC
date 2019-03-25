@@ -15,6 +15,8 @@ public class NoneMaterial : MaterialClass
     
     public override void Attack(GameObject player)
     {
+        //basic attack
+        //uses mouse direction to decide what direction the player attacks
         Debug.Log("Basic Attack");
 
         int attackDirection; //direction that the attack is directed, same as faceDirection where 1 = UP, 2 = RIGHT, 3 = DOWN, 4 = LEFT
